@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantCoreApp.Data;
 using RestaurantCoreApp.Models;
 using RestaurantCoreApp.Models.ViewModels;
+using RestaurantCoreApp.Utility;
 
 namespace RestaurantCoreApp.Areas.Admin.Controllers
 {
-	[Area("Admin")]
+    [Authorize(Roles = SD.ManagerUser)]
+    [Area("Admin")]
     public class SubCategoryController : Controller
     {
 		private readonly ApplicationDbContext _db;
@@ -164,7 +167,7 @@ namespace RestaurantCoreApp.Areas.Admin.Controllers
 			return View(subCategory);
 		}
 
-		// GET- DETAILS
+		// GET- DELETE
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null)

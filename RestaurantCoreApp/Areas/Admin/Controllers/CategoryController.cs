@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantCoreApp.Data;
 using RestaurantCoreApp.Models;
+using RestaurantCoreApp.Utility;
 
 namespace RestaurantCoreApp.Areas.Admin.Controllers
 {
+    [Authorize(Roles = SD.ManagerUser)]
 	[Area("Admin")]
     public class CategoryController : Controller
     {

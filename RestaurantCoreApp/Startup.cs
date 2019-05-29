@@ -38,11 +38,20 @@ namespace RestaurantCoreApp
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
-			services.AddDefaultIdentity<IdentityUser>()
+			services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddDefaultTokenProviders()
 				.AddDefaultUI(UIFramework.Bootstrap4)
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromSeconds(30);
+                options.Cookie.HttpOnly = true;
+            });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +72,7 @@ namespace RestaurantCoreApp
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
-
+            app.UseSession();
 			app.UseAuthentication();
 
 			app.UseMvc(routes =>
